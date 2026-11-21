@@ -15,10 +15,8 @@ Run it:  python pipeline/extract_load.py
 import time
 from datetime import date, datetime, timedelta
 from pathlib import Path
-
 import duckdb
 import requests
-
 import config
 
 BASE_URL = "https://api.erg.ic.ac.uk/AirQuality"
