@@ -1,0 +1,8 @@
+# Extra Kestra settings. Docker task containers can't use folders from my Mac
+# unless this is switched on.
+kestra:
+  plugins:
+    configurations:
+      - type: io.kestra.plugin.scripts.runner.docker.Docker
+        values:
+          volume-enabled: true
