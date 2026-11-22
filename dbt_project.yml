@@ -1,0 +1,30 @@
+name: london_air
+version: "1.0.0"
+profile: london_air
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+target-path: "target"
+
+flags:
+  send_anonymous_usage_stats: false
+
+models:
+  london_air:
+    silver:
+      +materialized: table   # silver = cleaned copy of bronze
+    gold:
+      +materialized: table   # gold = calculated tables the dashboard reads
+
+seeds:
+  london_air:
+    daqi_bands:
+      +column_types:
+        species_code: varchar
+        daqi_index: integer
+        band: varchar
+        lower_bound_ugm3: integer
+    daqi_advice:
+      +column_types:
+        band: varchar
+        advice_at_risk: varchar
