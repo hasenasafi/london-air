@@ -1,0 +1,31 @@
+species_code,daqi_index,band,lower_bound_ugm3
+NO2,1,Low,0
+NO2,2,Low,68
+NO2,3,Low,135
+NO2,4,Moderate,201
+NO2,5,Moderate,268
+NO2,6,Moderate,335
+NO2,7,High,401
+NO2,8,High,468
+NO2,9,High,535
+NO2,10,Very High,601
+PM25,1,Low,0
+PM25,2,Low,12
+PM25,3,Low,24
+PM25,4,Moderate,36
+PM25,5,Moderate,42
+PM25,6,Moderate,48
+PM25,7,High,54
+PM25,8,High,59
+PM25,9,High,65
+PM25,10,Very High,71
+PM10,1,Low,0
+PM10,2,Low,17
+PM10,3,Low,34
+PM10,4,Moderate,51
+PM10,5,Moderate,59
+PM10,6,Moderate,67
+PM10,7,High,76
+PM10,8,High,84
+PM10,9,High,92
+PM10,10,Very High,101
