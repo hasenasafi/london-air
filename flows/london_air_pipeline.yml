@@ -16,9 +16,14 @@ tasks:
         # My project folder on the Mac, shared into the container as /project,
         # so the pipeline reads and writes the same database files I use.
         - /Users/hasenasafi/Documents/london-air:/project
+    env:
+      # Keep dbt's working files inside the container, separate from my Mac's,
+      # because those contain Mac file paths that don't exist in here.
+      DBT_TARGET_PATH: /tmp/dbt_target
+      DBT_LOG_PATH: /tmp/dbt_logs
     commands:
       - cd /project
-      - pip install --quiet --root-user-action=ignore -r requirements.txt
+      - pip install --quiet --root-user-action=ignore --disable-pip-version-check -r requirements.txt
       - bash run_pipeline.sh
 
 triggers:
