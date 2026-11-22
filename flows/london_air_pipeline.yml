@@ -1,0 +1,28 @@
+id: london_air_pipeline
+namespace: london.air
+description: |
+  Every morning: pull new hourly readings for the Merton monitoring sites (bronze),
+  then rebuild the cleaned data and DAQI alert tables with dbt (silver + gold).
+  Data: London Air Quality Network, Environmental Research Group, Imperial College London.
+
+tasks:
+  - id: run_pipeline
+    type: io.kestra.plugin.scripts.shell.Commands
+    # A clean Linux container with Python. Same tool versions as my Mac (requirements.txt).
+    containerImage: python:3.11-slim
+    taskRunner:
+      type: io.kestra.plugin.scripts.runner.docker.Docker
+      volumes:
+        # My project folder on the Mac, shared into the container as /project,
+        # so the pipeline reads and writes the same database files I use.
+        - /Users/hasenasafi/Documents/london-air:/project
+    commands:
+      - cd /project
+      - pip install --quiet --root-user-action=ignore -r requirements.txt
+      - bash run_pipeline.sh
+
+triggers:
+  - id: every_morning
+    type: io.kestra.plugin.core.trigger.Schedule
+    cron: "0 7 * * *"          # 07:00 every day, before GP surgeries and pharmacies open
+    timezone: Europe/London
