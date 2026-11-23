@@ -1,8 +1,9 @@
 id: london_air_pipeline
 namespace: london.air
 description: |
-  Every morning: pull new hourly readings for the Merton monitoring sites (bronze),
-  then rebuild the cleaned data and DAQI alert tables with dbt (silver + gold).
+  Every hour: pull new hourly readings for the Merton monitoring sites (bronze),
+  rebuild the cleaned data and DAQI alert tables with dbt (silver + gold),
+  then export the gold tables to CSV for the Tableau dashboard.
   Data: London Air Quality Network, Environmental Research Group, Imperial College London.
 
 tasks:
@@ -27,7 +28,9 @@ tasks:
       - bash run_pipeline.sh
 
 triggers:
-  - id: every_morning
+  - id: every_hour
     type: io.kestra.plugin.core.trigger.Schedule
-    cron: "0 7 * * *"          # 07:00 every day, before GP surgeries and pharmacies open
+    # Every hour, on the hour, whenever the laptop is on. The data arrives hourly,
+    # and a missed hour is caught up by the next run (the watermark in extract_load.py).
+    cron: "0 * * * *"
     timezone: Europe/London
