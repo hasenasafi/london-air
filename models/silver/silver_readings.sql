@@ -5,7 +5,7 @@ with readings as (
 ),
 
 sites as (
-    select * from {{ ref('silver_sites') }}
+    select * from {{ ref('bronze_sites') }}
 )
 
 select
