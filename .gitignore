@@ -8,3 +8,5 @@ logs/
 dbt_packages/
 .env
 data/warehouse.duckdb
+.~*
+*.twbr
