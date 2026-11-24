@@ -11044,3 +11044,10 @@ MEA,Merton - Mitcham,Merton,NO2,Nitrogen dioxide,2026-11-24 11:00:00,32.0,32.0,H
 MEA,Merton - Mitcham,Merton,PM25,Fine particulates (PM2.5),2026-11-24 11:00:00,9.0,14.25,24-hour running mean,2,Low
 MEB,Merton - Plough Lane Wimbledon,Merton,PM10,Particulates (PM10),2026-11-24 11:00:00,30.0,28.5,24-hour running mean,2,Low
 MEB,Merton - Plough Lane Wimbledon,Merton,PM25,Fine particulates (PM2.5),2026-11-24 11:00:00,9.0,16.15,24-hour running mean,2,Low
+ME2,Merton - Merton Road,Merton,NO2,Nitrogen dioxide,2026-11-24 12:00:00,30.7,30.7,Hourly value,1,Low
+ME2,Merton - Merton Road,Merton,PM10,Particulates (PM10),2026-11-24 12:00:00,39.0,33.25,24-hour running mean,2,Low
+ME9,Merton - Morden Civic Centre 2,Merton,NO2,Nitrogen dioxide,2026-11-24 12:00:00,14.5,14.5,Hourly value,1,Low
+MEA,Merton - Mitcham,Merton,NO2,Nitrogen dioxide,2026-11-24 12:00:00,25.3,25.3,Hourly value,1,Low
+MEA,Merton - Mitcham,Merton,PM25,Fine particulates (PM2.5),2026-11-24 12:00:00,9.0,14.375,24-hour running mean,2,Low
+MEB,Merton - Plough Lane Wimbledon,Merton,PM10,Particulates (PM10),2026-11-24 12:00:00,26.0,28.38095238095238,24-hour running mean,2,Low
+MEB,Merton - Plough Lane Wimbledon,Merton,PM25,Fine particulates (PM2.5),2026-11-24 12:00:00,8.0,15.761904761904763,24-hour running mean,2,Low
