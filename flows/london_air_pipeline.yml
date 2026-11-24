@@ -6,31 +6,36 @@ description: |
   then export the gold tables to CSV for the Tableau dashboard.
   Data: London Air Quality Network, Environmental Research Group, Imperial College London.
 
+# Never run two copies at once: if a run is still going, the new one is cancelled.
+concurrency:
+  limit: 1
+  behavior: CANCEL
+
 tasks:
   - id: run_pipeline
     type: io.kestra.plugin.scripts.shell.Commands
-    # A clean Linux container with Python. Same tool versions as my Mac (requirements.txt).
-    containerImage: python:3.11-slim
+    # My own image with the tools pre-installed (see Dockerfile), so runs don't
+    # depend on downloading packages from the internet each time.
+    containerImage: london-air-pipeline:1
     taskRunner:
       type: io.kestra.plugin.scripts.runner.docker.Docker
+      pullPolicy: NEVER
       volumes:
-        # My project folder on the Mac, shared into the container as /project,
-        # so the pipeline reads and writes the same database files I use.
         - /Users/hasenasafi/Documents/london-air:/project
     env:
-      # Keep dbt's working files inside the container, separate from my Mac's,
-      # because those contain Mac file paths that don't exist in here.
       DBT_TARGET_PATH: /tmp/dbt_target
       DBT_LOG_PATH: /tmp/dbt_logs
+    # A network blip (e.g. the laptop just woke up) gets two more tries.
+    retry:
+      type: constant
+      interval: PT2M
+      maxAttempts: 3
     commands:
       - cd /project
-      - pip install --quiet --root-user-action=ignore --disable-pip-version-check -r requirements.txt
       - bash run_pipeline.sh
 
 triggers:
   - id: every_hour
     type: io.kestra.plugin.core.trigger.Schedule
-    # Every hour, on the hour, whenever the laptop is on. The data arrives hourly,
-    # and a missed hour is caught up by the next run (the watermark in extract_load.py).
     cron: "0 * * * *"
     timezone: Europe/London
