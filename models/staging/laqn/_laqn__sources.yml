@@ -1,0 +1,35 @@
+version: 2
+
+sources:
+  - name: laqn
+    description: >
+      Raw tables written by pipeline/extract_load.py from the London Air Quality Network API
+      (Environmental Research Group, Imperial College London). Stored exactly as the API sent them.
+    database: raw
+    schema: main
+    tables:
+      - name: raw_sites
+        description: All London monitoring sites. Replaced in full on every run (about 260 rows).
+        columns:
+          - name: site_code
+            data_tests: [unique, not_null]
+
+      - name: raw_readings
+        description: >
+          One row per site, pollutant and hour. The primary key (site_code, species_code, measured_at)
+          means a reading can never be stored twice.
+        config:
+          loaded_at_field: loaded_at
+          freshness:
+            warn_after: {count: 6, period: hour}
+            error_after: {count: 24, period: hour}
+        columns:
+          - name: site_code
+            data_tests: [not_null]
+          - name: species_code
+            data_tests: [not_null]
+          - name: measured_at
+            data_tests: [not_null]
+
+      - name: load_log
+        description: One row per site and pollutant per pipeline run. Proof of what each run added.

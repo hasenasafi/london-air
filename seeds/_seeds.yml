@@ -1,0 +1,23 @@
+version: 2
+
+seeds:
+  - name: daqi_bands
+    description: >
+      Daily Air Quality Index thresholds from Defra: the lowest concentration (µg/m³)
+      for each index 1 to 10, per pollutant.
+    columns:
+      - name: species_code
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['NO2', 'PM25', 'PM10']
+      - name: daqi_index
+        data_tests: [not_null]
+      - name: lower_bound_ugm3
+        data_tests: [not_null]
+
+  - name: daqi_advice
+    description: Defra's health advice for at-risk people (lung or heart conditions) in each band.
+    columns:
+      - name: band
+        data_tests: [unique, not_null]

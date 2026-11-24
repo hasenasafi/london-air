@@ -1,0 +1,52 @@
+version: 2
+
+# Three marts, one per grain the dashboard needs. None of them reads from another mart.
+# Anything that is just a filter, sort or group of one of these is done in Tableau instead.
+
+models:
+  - name: fct_daqi_hourly
+    description: DAQI per site, pollutant and hour. Exported as exports/hourly_index.csv.
+    columns:
+      - name: site_code
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_laqn__sites')
+                field: site_code
+      - name: measured_at_gmt
+        data_tests: [not_null]
+
+  - name: fct_daqi_daily
+    description: >
+      The worst DAQI per site per day, with the band and advice for at-risk patients.
+      Exported as exports/daily_alert.csv.
+    columns:
+      - name: site_code
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_laqn__sites')
+                field: site_code
+      - name: daqi_index
+        data_tests: [not_null]
+      - name: band
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Low', 'Moderate', 'High', 'Very High']
+      - name: warn_respiratory_patients
+        description: True when the band is Moderate or worse.
+      - name: advice_at_risk
+        data_tests: [not_null]
+
+  - name: fct_daqi_current
+    description: The latest DAQI per site. Exported as exports/current_alert.csv.
+    columns:
+      - name: site_code
+        description: One row per site.
+        data_tests: [unique, not_null]
+      - name: band
+        data_tests: [not_null]

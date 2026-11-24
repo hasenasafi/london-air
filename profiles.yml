@@ -4,12 +4,12 @@ london_air:
   outputs:
     dev:
       type: duckdb
-      # Silver and gold are built in their own file. It can always be rebuilt with `dbt build`,
-      # so it is NOT stored in git.
+      # The models dbt builds live in their own file. It can always be rebuilt with
+      # `dbt build`, so it is NOT stored in git.
       path: data/warehouse.duckdb
-      # Bronze (the history collected by the pipeline) is attached read-only,
+      # The raw tables written by pipeline/extract_load.py, attached read-only
       # so dbt can never change the raw data.
       attach:
         - path: data/air_quality.duckdb
-          alias: bronze
+          alias: raw
           read_only: true
