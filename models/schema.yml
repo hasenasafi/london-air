@@ -3,7 +3,7 @@ version: 2
 # Tests run with `dbt build`. If any fails, the build stops and tells you which.
 
 models:
-  - name: silver_sites
+  - name: bronze_sites
     columns:
       - name: site_code
         tests: [unique, not_null]
