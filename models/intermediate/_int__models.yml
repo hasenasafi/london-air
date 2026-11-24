@@ -1,0 +1,51 @@
+version: 2
+
+models:
+  - name: int_readings_enriched
+    description: One clean row per site, pollutant and hour, with site details joined on. Negative noise removed.
+    columns:
+      - name: reading_id
+        description: site + pollutant + hour. Must be unique, so this test proves there are no duplicates.
+        data_tests: [unique, not_null]
+      - name: species_code
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['NO2', 'PM25', 'PM10']
+      - name: concentration_ugm3
+        data_tests: [not_null]
+
+  - name: int_daqi_levels
+    description: The ten DAQI levels with their band, whether to warn at-risk patients, and the official advice.
+    columns:
+      - name: daqi_index
+        data_tests: [unique, not_null]
+      - name: band
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Low', 'Moderate', 'High', 'Very High']
+      - name: advice_at_risk
+        data_tests: [not_null]
+
+  - name: int_daqi_hourly
+    description: DAQI per site, pollutant and hour, using the official averaging for each pollutant.
+    columns:
+      - name: daqi_index
+        description: 1 to 10. Empty when there was not enough data for a fair 24-hour mean.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                quote: false
+
+  - name: int_daqi_daily_by_pollutant
+    description: DAQI per site, pollutant and day, using the official daily method.
+    columns:
+      - name: daqi_index
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                quote: false

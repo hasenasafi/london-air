@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: stg_laqn__sites
+    description: Monitoring sites with clear column names and proper date types.
+    columns:
+      - name: site_code
+        description: LAQN site code, e.g. ME2.
+        data_tests: [unique, not_null]
+      - name: borough
+        description: Local authority the site sits in.
+      - name: is_open
+        description: True if the site has no closing date.
+
+  - name: stg_laqn__readings
+    description: Hourly readings with clear column names. Still includes raw instrument noise.
+    columns:
+      - name: site_code
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_laqn__sites')
+                field: site_code
+      - name: species_code
+        description: Pollutant code (NO2, PM25, PM10).
+        data_tests: [not_null]
+      - name: measured_at_gmt
+        description: The hour the reading is for, in GMT.
+        data_tests: [not_null]
+      - name: concentration_ugm3
+        description: Concentration in micrograms per cubic metre.

@@ -9,12 +9,18 @@ target-path: "target"
 flags:
   send_anonymous_usage_stats: false
 
+# Layers follow dbt's recommended structure:
+#   staging      = one model per source table, renamed and typed only (the "bronze" layer)
+#   intermediate = joins, cleaning and DAQI business logic; seeds come in here (the "silver" layer)
+#   marts        = final tables for Tableau, one per grain; marts never read from other marts (the "gold" layer)
 models:
   london_air:
-    silver:
-      +materialized: table   # silver = cleaned copy of bronze
-    gold:
-      +materialized: table   # gold = calculated tables the dashboard reads
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: view
+    marts:
+      +materialized: table
 
 seeds:
   london_air:
