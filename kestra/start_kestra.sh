@@ -17,7 +17,7 @@ docker run -d \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v /tmp:/tmp \
   -v "$(pwd)/flows:/flows" \
-  -e KESTRA_CONFIGURATION="$(cat kestra/config.yml)" \
+  -e KESTRA_CONFIGURATION="$(cat config.yml)" \
   kestra/kestra:latest \
   server local --flow-path /flows
 

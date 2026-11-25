@@ -1,7 +1,5 @@
-# Which data to collect. Change these to match your angle.
 
 # Site codes come from the MonitoringSites endpoint (the @SiteCode field).
-# Placeholders below: replace with the sites near your chosen area.
 SITES = ["ME2", "MEA", "ME9", "MEB"]
 
 # Pollutant codes: NO2 = nitrogen dioxide, PM25 = fine particulates, PM10, O3 = ozone
